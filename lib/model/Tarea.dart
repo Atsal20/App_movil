@@ -1,10 +1,11 @@
-/// Modelo que representa un gasto registrado en un grupo
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Tarea {
-  final String id;
-  final String nombre;
-  final String descripcion;
-  final DateTime fecha;
-  final List<String> repartidoEntre;
+  final String id;                 // ID único de la tarea
+  final String nombre;             // Nombre de la tarea
+  final String descripcion;        // Descripción de la tarea
+  final DateTime fecha;             // Fecha límite de la tarea
+  final List<String> repartidoEntre; // Lista de IDs de usuarios asignados
 
   Tarea({
     required this.id,
@@ -14,16 +15,7 @@ class Tarea {
     required this.repartidoEntre,
   });
 
-  factory Tarea.fromMap(Map<String, dynamic> data, String documentId) {
-    return Tarea(
-      id: documentId,
-      nombre: data['nombre'] ?? '',
-      descripcion: data['descripcion'] ?? '',
-      fecha: (data['fecha'] as Timestamp).toDate(),
-      repartidoEntre: List<String>.from(data['repartidoEntre'] ?? []),
-    );
-  }
-
+  // Método para convertir a Map (para subir a Firestore)
   Map<String, dynamic> toMap() {
     return {
       'nombre': nombre,
@@ -31,5 +23,16 @@ class Tarea {
       'fecha': fecha,
       'repartidoEntre': repartidoEntre,
     };
+  }
+
+  // Método para crear una Tarea desde un Map (leer de Firestore)
+  factory Tarea.fromMap(Map<String, dynamic> map, String id) {
+    return Tarea(
+      id: id,
+      nombre: map['nombre'] ?? '',
+      descripcion: map['descripcion'] ?? '',
+      fecha: (map['fecha'] as Timestamp).toDate(),
+      repartidoEntre: List<String>.from(map['repartidoEntre'] ?? []),
+    );
   }
 }

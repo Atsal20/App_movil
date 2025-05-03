@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 /// Modelo que representa un gasto registrado en un grupo
 class Gasto {
   final String id;

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 /// Modelo que representa un grupo de gastos compartidos
 class Grupo {
   final String id;
